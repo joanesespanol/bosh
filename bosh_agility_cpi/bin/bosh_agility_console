@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+
+# ================================================================================
+#
+# Copyright (C) 2013-2014 ServiceMesh, Inc.
+# 233 Wilshire Blvd, Suite 990, Santa Monica, CA 90401
+# All rights reserved.  Confidential and Proprietary.
+#
+# This information is provided under the Master Supply Agreement between the
+# parties and is considered a portion of the Licensed Software and Confidential
+# Information as defined therein.
+# This information is provided "as is" without warranty of any kind either
+# expressed or implied, including, but not limited to, the implied warranties
+# of merchantability and/or fitness for a particular purpose.
+#
+# ================================================================================
+
+$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+
+require "bosh_agility_cpi"
+require "irb"
+require "irb/completion"
+require "ostruct"
+require "optparse"
+require 'psych'
+require 'logger'
+
+config_file = nil
+
+opts_parser = OptionParser.new do |opts|
+  opts.on("-c", "--config FILE") { |file| config_file = file }
+end
+
+opts_parser.parse!
+
+unless config_file
+  puts opts_parser
+  exit(1)
+end
+
+@config = Psych.load_file(config_file)
+
+module ConsoleHelpers
+  def cpi
+    @cpi ||= Bosh::AgilityCloud::Cloud.new(@config)
+  end
+end
+
+cloud_config = OpenStruct.new(:logger => Logger.new(STDOUT))
+
+Bosh::Clouds::Config.configure(cloud_config)
+
+include ConsoleHelpers
+
+begin
+  require "ruby-debug"
+  puts "=> Debugger enabled"
+rescue LoadError
+  puts "=> ruby-debug not found, debugger disabled"
+end
+
+puts "=> Welcome to BOSH AGILITY CPI console"
+puts "You can use 'cpi' to access CPI methods"
+
+IRB.start
+
+cpi.close

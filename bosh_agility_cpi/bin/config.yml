@@ -1,0 +1,5 @@
+---
+agility:
+  url: https://192.168.199.103:8443
+  user: admin
+  password: <password>
