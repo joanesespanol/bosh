@@ -124,6 +124,12 @@ PATH
       yajl-ruby (~> 1.1.0)
 
 PATH
+  remote: bosh_agility_cpi
+  specs:
+    bosh_agility_cpi (1.5.0.pre.3)
+      rjb (>= 1.4.9)
+
+PATH
   remote: bosh_aws_cpi
   specs:
     bosh_aws_cpi (1.5.0.pre.3)
@@ -337,6 +343,7 @@ GEM
       vegas (~> 0.1.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rjb (1.4.9)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -423,6 +430,7 @@ DEPENDENCIES
   bosh-release!
   bosh-stemcell!
   bosh_agent!
+  bosh_agility_cpi!
   bosh_aws_cpi!
   bosh_cli!
   bosh_cli_plugin_aws!
